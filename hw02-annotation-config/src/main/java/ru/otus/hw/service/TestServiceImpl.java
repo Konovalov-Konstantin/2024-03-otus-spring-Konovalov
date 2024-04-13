@@ -1,12 +1,16 @@
 package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
-import ru.otus.hw.domain.Question;
+import ru.otus.hw.domain.Answer;
+import ru.otus.hw.domain.Student;
+import ru.otus.hw.domain.TestResult;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class TestServiceImpl implements TestService {
 
     private final IOService ioService;
@@ -14,11 +18,25 @@ public class TestServiceImpl implements TestService {
     private final QuestionDao questionDao;
 
     @Override
-    public void executeTest() {
+    public TestResult executeTestFor(Student student) {
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
-        // Получить вопросы из дао и вывести их с вариантами ответов
-        List<Question> questions = questionDao.findAll();
-        questions.forEach(System.out::println);
+        var questions = questionDao.findAll();
+        var testResult = new TestResult(student);
+
+        for (var question : questions) {
+            var isAnswerValid = false; // Задать вопрос, получить ответ
+            ioService.printLine(question.text());
+            String studentAnswer = ioService.readString();
+            List<Answer> answers = question.answers();
+
+            isAnswerValid = answers.stream()
+                    .filter(x -> x.text().equalsIgnoreCase(studentAnswer))
+                    .map(Answer::isCorrect)
+                    .findFirst().orElse(false);
+
+            testResult.applyAnswer(question, isAnswerValid);
+        }
+        return testResult;
     }
 }
