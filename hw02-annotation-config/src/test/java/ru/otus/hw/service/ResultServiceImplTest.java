@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hw.config.TestConfig;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.verify;
 @DisplayName("Сервис вывода результатов ")
 @ExtendWith(MockitoExtension.class)
 class ResultServiceImplTest {
-
+    @InjectMocks
     private ResultServiceImpl resultService;
 
     @Mock
@@ -27,11 +28,6 @@ class ResultServiceImplTest {
 
     @Mock
     TestConfig testConfig;
-
-    @BeforeEach
-    void setUp() {
-        resultService = new ResultServiceImpl(testConfig, ioService);
-    }
 
     @DisplayName("должен корректно выводить результаты тестирования студента ")
     @Test
