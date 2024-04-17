@@ -1,0 +1,4 @@
+application:
+  rightAnswersCountToPass: 4
+  fileName: questions.csv
+  locale: en
