@@ -20,8 +20,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestResult executeTestFor(Student student) {
+        String invitation = questionDao.getMessage("invitation");
         ioService.printLine("");
-        ioService.printFormattedLine("Please answer the questions below%n");
+        ioService.printFormattedLine(invitation + "%n");
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 

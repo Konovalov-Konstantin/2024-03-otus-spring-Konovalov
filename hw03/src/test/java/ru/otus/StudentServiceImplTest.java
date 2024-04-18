@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Student;
 import ru.otus.service.IOService;
 import ru.otus.service.StudentServiceImpl;
@@ -22,6 +23,8 @@ class StudentServiceImplTest {
 
     @Mock
     IOService ioService;
+    @Mock
+    QuestionDao questionDao;
 
     @DisplayName("должен корректно определять студента с введенными именем и фамилией ")
     @Test
@@ -30,6 +33,8 @@ class StudentServiceImplTest {
         String expectedFirstName = "Vladimir";
         String expectedLastName = "Vladimirov";
 
+        given(questionDao.getMessage("firstName")).willReturn("Please input your first name");
+        given(questionDao.getMessage("lastName")).willReturn("Please input your last name");
         given(ioService.readStringWithPrompt("Please input your first name")).willReturn(expectedFirstName);
         given(ioService.readStringWithPrompt("Please input your last name")).willReturn(expectedLastName);
 

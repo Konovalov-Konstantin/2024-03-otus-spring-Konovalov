@@ -2,6 +2,7 @@ package ru.otus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Student;
 
 @RequiredArgsConstructor
@@ -10,10 +11,14 @@ public class StudentServiceImpl implements StudentService {
 
     private final IOService ioService;
 
+    private final QuestionDao questionDao;
+
     @Override
     public Student determineCurrentStudent() {
-        var firstName = ioService.readStringWithPrompt("Please input your first name");
-        var lastName = ioService.readStringWithPrompt("Please input your last name");
+        String firstNameMessage = questionDao.getMessage("firstName");
+        String lastNameMessage = questionDao.getMessage("lastName");
+        var firstName = ioService.readStringWithPrompt(firstNameMessage);
+        var lastName = ioService.readStringWithPrompt(lastNameMessage);
         return new Student(firstName, lastName);
     }
 }
