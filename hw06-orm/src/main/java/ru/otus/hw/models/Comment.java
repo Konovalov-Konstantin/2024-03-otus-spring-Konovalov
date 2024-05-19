@@ -4,7 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -12,8 +14,10 @@ import lombok.*;
 @Entity
 @Table(name = "comments")
 public class Comment {
+
     @Id
-    long id;
+    private long id;
+
     @Column(name = "comment")
-    String comment;
+    private String comment;
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Dao для работы с авторами должно")
+@DisplayName("Dao для работы с комментариями должно")
 @DataJpaTest
 @Import(CommentsRepositoryJPA.class)
 class CommentsRepositoryJPATest {
@@ -25,7 +25,7 @@ class CommentsRepositoryJPATest {
         Comment expectedCommentary = commentsRepository.findById(2).orElse(null);
         assertAll(
                 () -> assertNotNull(expectedCommentary),
-                () -> assertEquals("Комментарий_2_к_книге_1", expectedCommentary.getComment())
+                () -> assertEquals("Comment_2_by_book_1", expectedCommentary.getComment())
         );
     }
 
@@ -35,8 +35,8 @@ class CommentsRepositoryJPATest {
         List<Comment> commentsByBookId = commentsRepository.findCommentsByBookId(1L);
         assertAll(
                 () -> assertEquals(2, commentsByBookId.size()),
-                () -> assertEquals("Комментарий_1_к_книге_1", commentsByBookId.get(0).getComment()),
-                () -> assertEquals("Комментарий_2_к_книге_1", commentsByBookId.get(1).getComment())
+                () -> assertEquals("Comment_1_by_book_1", commentsByBookId.get(0).getComment()),
+                () -> assertEquals("Comment_2_by_book_1", commentsByBookId.get(1).getComment())
         );
     }
 }

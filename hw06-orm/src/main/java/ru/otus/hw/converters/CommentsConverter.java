@@ -1,7 +1,6 @@
 package ru.otus.hw.converters;
 
 import org.springframework.stereotype.Component;
-import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;

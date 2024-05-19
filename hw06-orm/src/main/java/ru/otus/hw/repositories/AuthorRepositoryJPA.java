@@ -9,8 +9,6 @@ import ru.otus.hw.models.Author;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
-
 @Repository
 public class AuthorRepositoryJPA implements AuthorRepository {
 

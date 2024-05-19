@@ -4,22 +4,15 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.EntityNotFoundException;
-import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
-import ru.otus.hw.models.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
@@ -73,7 +66,8 @@ public class BookRepositoryJPA implements BookRepository {
         try {
             Optional<Book> updatedBook = findById(book.getId());
             if (Objects.nonNull(updatedBook)) {
-                List<Comment> commentsFromUpdatedBook = updatedBook.map(Book::getComments).orElse(Collections.emptyList());
+                List<Comment> commentsFromUpdatedBook = updatedBook.map(Book::getComments)
+                        .orElse(Collections.emptyList());
                 List<Comment> newComments = book.getComments();
                 commentsFromUpdatedBook.addAll(newComments);
                 book.setComments(commentsFromUpdatedBook);

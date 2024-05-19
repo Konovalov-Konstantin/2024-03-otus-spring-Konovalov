@@ -8,4 +8,4 @@ insert into books(title, author_id, genre_id)
 values ('Test_BookTitle_1', 1, 1), ('Test_BookTitle_2', 2, 2), ('Test_BookTitle_3', 3, 3), ('Test_BookTitle_4', 4, 4);
 
 insert into comments(comment, book_id)
-values ('Комментарий_1_к_книге_1', 1), ('Комментарий_2_к_книге_1', 1), ('Комментарий_1_к_книге_2', 2), ('Комментарий_1_к_книге_3', 3);
+values ('Comment_1_by_book_1', 1), ('Comment_2_by_book_1', 1), ('Comment_1_by_book_2', 2), ('Comment_1_by_book_3', 3);
