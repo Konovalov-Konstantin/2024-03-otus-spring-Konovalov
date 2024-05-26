@@ -1,6 +1,5 @@
 package ru.otus.hw.repositories;
 
-import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -11,10 +10,7 @@ import ru.otus.hw.models.Comment;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-
-import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
 @Repository
 public class BookRepositoryJPA implements BookRepository {
@@ -28,18 +24,12 @@ public class BookRepositoryJPA implements BookRepository {
 
     @Override
     public Optional<Book> findById(long id) {
-        EntityGraph<?> entityGraph = em.getEntityGraph("books-authors-genres-comments-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id = :id", Book.class);
-        query.setParameter("id", id);
-        query.setHint(FETCH.getKey(), entityGraph);
-        return Optional.ofNullable(query.getSingleResult());
+        return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
     public List<Book> findAll() {
-        EntityGraph<?> entityGraph = em.getEntityGraph("books-authors-genres-comments-graph");
         TypedQuery<Book> query = em.createQuery("select distinct b from Book b", Book.class);
-        query.setHint(FETCH.getKey(), entityGraph);
         return query.getResultList();
     }
 
@@ -63,21 +53,18 @@ public class BookRepositoryJPA implements BookRepository {
     }
 
     private Book update(Book book) {
-        try {
-            Optional<Book> updatedBook = findById(book.getId());
-            if (Objects.nonNull(updatedBook)) {
-                List<Comment> commentsFromUpdatedBook = updatedBook.map(Book::getComments)
-                        .orElse(Collections.emptyList());
-                List<Comment> newComments = book.getComments();
-                commentsFromUpdatedBook.addAll(newComments);
-                book.setComments(commentsFromUpdatedBook);
-                em.merge(book);
-                return book;
-            }
-        } catch (Exception e) {
+        Optional<Book> updatedBook = findById(book.getId());
+        if (updatedBook.isPresent()) {
+            List<Comment> commentsFromUpdatedBook = updatedBook.map(Book::getComments)
+                    .orElse(Collections.emptyList());
+            List<Comment> newComments = book.getComments();
+            commentsFromUpdatedBook.addAll(newComments);
+            book.setComments(commentsFromUpdatedBook);
+            em.merge(book);
+            return book;
+        } else {
             throw new EntityNotFoundException("Not a single record in the database has been updated");
         }
-        return null;
     }
 }
 

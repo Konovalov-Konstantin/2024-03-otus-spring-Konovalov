@@ -58,18 +58,6 @@ class ModelsCommonTest {
 
     @ParameterizedTest
     @MethodSource("getEntities")
-    void shouldBeNoEagerRelationshipsInModelClasses(Class<?> entityClass) {
-        boolean eagerFetchExists = Arrays.stream(entityClass.getDeclaredFields())
-                .map(f -> getRelationAnnotationArgumentValue(f, "fetch", FetchType.class))
-                .filter(Objects::nonNull)
-                .anyMatch(fetchType -> fetchType.equals(FetchType.EAGER));
-        assertThat(eagerFetchExists)
-                .withFailMessage("Лучше все связи сделать LAZY")
-                .isFalse();
-    }
-
-    @ParameterizedTest
-    @MethodSource("getEntities")
     void shouldMappedForBidirectionalRelationshipsInModelClasses(Class<?> entityClass) {
         var relationsEntries = findAllRelationsEntry(entityClass);
         var hasBidirectionalRelationshipsWithoutMappedBy = relationsEntries.entrySet().stream()

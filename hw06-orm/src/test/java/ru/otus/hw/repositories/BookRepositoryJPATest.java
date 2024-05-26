@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -13,23 +14,17 @@ import ru.otus.hw.models.Genre;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Dao для работы с книгами должно")
 @DataJpaTest
-@Import({BookRepositoryJPA.class, AuthorRepositoryJPA.class, GenreRepositoryJPA.class})
+@Import(BookRepositoryJPA.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookRepositoryJPATest {
 
     @Autowired
     BookRepositoryJPA bookRepository;
-
-    @Autowired
-    AuthorRepositoryJPA authorRepository;
-
-    @Autowired
-    GenreRepositoryJPA genreRepository;
 
     private static final int EXPECTED_BOOKS_COUNT = 4;
 
@@ -43,8 +38,8 @@ class BookRepositoryJPATest {
     @DisplayName("добавлять книгу в БД")
     @Test
     void shouldInsertBook() {
-        Author testAuthor = Optional.ofNullable(authorRepository.findById(2L)).get().orElse(null);
-        Genre testGenre = Optional.ofNullable(genreRepository.findById(3L)).get().orElse(null);
+        Author testAuthor = new Author(2L, "Test_Author_2");
+        Genre testGenre = new Genre(3L, "Test_Genre_3");
         Book insertedTestBook = new Book(0L, "NewTestBook", testAuthor, testGenre, Collections.emptyList());
         bookRepository.save(insertedTestBook);
         Book expected_book = bookRepository.findById(5).get();
@@ -54,8 +49,8 @@ class BookRepositoryJPATest {
     @DisplayName("обновлять книгу в БД")
     @Test
     void shouldUpdateBook() {
-        Author testAuthor = Optional.ofNullable(authorRepository.findById(2L)).get().orElse(null);
-        Genre testGenre = Optional.ofNullable(genreRepository.findById(3L)).get().orElse(null);
+        Author testAuthor = new Author(2L, "Test_Author_2");
+        Genre testGenre = new Genre(3L, "Test_Genre_3");
         Comment testComment = new Comment(4,"Измененный_комментарий_1_к_книге_2");
         Book updatedTestBook = new Book(2L, "NewTestBook", testAuthor, testGenre, List.of(testComment));
         bookRepository.save(updatedTestBook);
@@ -67,8 +62,8 @@ class BookRepositoryJPATest {
     @DisplayName("находить книгу по id")
     @Test
     void shouldFindBookById() {
-        Author expectedAuthor = authorRepository.findById(3).get();
-        Genre expectedGenre = genreRepository.findById(3L).get();
+        Author expectedAuthor = new Author(3L, "Test_Author_3");
+        Genre expectedGenre = new Genre(3L, "Test_Genre_3");
         Book book = bookRepository.findById(3L).get();
 
         assertAll(
@@ -81,8 +76,8 @@ class BookRepositoryJPATest {
     @DisplayName("выбрасывать исключение, если ни одной книги не обновлено")
     @Test
     void shouldThrowEntityNotFoundException() {
-        Author testAuthor = Optional.ofNullable(authorRepository.findById(2L)).get().orElse(null);
-        Genre testGenre = Optional.ofNullable(genreRepository.findById(2L)).get().orElse(null);
+        Author testAuthor = new Author(2L, "Test_Author_2");
+        Genre testGenre = new Genre(2L, "Test_Genre_2");
         Book missingBook = new Book(10L, "Missing_Book", testAuthor, testGenre, Collections.emptyList());
         assertThrows(EntityNotFoundException.class, () -> bookRepository.save(missingBook));
     }

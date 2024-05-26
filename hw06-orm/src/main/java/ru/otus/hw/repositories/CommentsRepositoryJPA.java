@@ -3,11 +3,8 @@ package ru.otus.hw.repositories;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,13 +20,6 @@ public class CommentsRepositoryJPA implements CommentsRepository {
     @Override
     public Optional<Comment> findById(long id) {
         return Optional.ofNullable(em.find(Comment.class, id));
-    }
-
-    @Override
-    public List<Comment> findCommentsByBookId(long bookId) {
-        return Optional.ofNullable(em.find(Book.class, bookId))
-                .map(Book::getComments)
-                .orElse(Collections.emptyList());
     }
 
     @Override

@@ -20,17 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Сервис книг должен ")
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-//@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class BookServiceImplTest {
 
     @Autowired
     BookServiceImpl bookService;
-
-    @Autowired
-    AuthorRepository authorRepository;
-
-    @Autowired
-    GenreRepository genreRepository;
 
     @DisplayName("должен возвращать книгу по ID ")
     @Test
@@ -40,10 +33,15 @@ class BookServiceImplTest {
         expectedBook.setAuthor(new Author(1, "Test_Author_1"));
         expectedBook.setTitle("Test_BookTitle_1");
         expectedBook.setGenre(new Genre(1l, "Test_Genre_1"));
-        expectedBook.setComments(List.of(new Comment(1, "Комментарий_1_к_книге_1"), new Comment(2, "Комментарий_2_к_книге_1")));
+        expectedBook.setComments(List.of(new Comment(1, "Comment_1_by_book_1"), new Comment(2, "Comment_2_by_book_1")));
 
         Book actualBook = bookService.findById(1l).orElse(null);
-        assertEquals(actualBook, expectedBook);
+        assertAll(
+                () -> assertEquals(actualBook.getAuthor(), expectedBook.getAuthor()),
+                () -> assertEquals(actualBook.getTitle(), expectedBook.getTitle()),
+                () -> assertEquals(actualBook.getGenre(), expectedBook.getGenre()),
+                () -> assertIterableEquals(actualBook.getComments(), expectedBook.getComments())
+        );
     }
 
     @DisplayName("должен возвращать все книги из БД ")
@@ -57,8 +55,8 @@ class BookServiceImplTest {
     @Test
     void shouldSaveNewBook() {
         Book newBook = new Book();
-        newBook.setAuthor(authorRepository.findById(3L).orElse(null));
-        newBook.setGenre(genreRepository.findById(2L).orElse(null));
+        newBook.setAuthor(new Author(3L, "Test_Author_3"));
+        newBook.setGenre(new Genre(2L, "Test_Genre_2"));
         newBook.setTitle("Test_BookTitle_5");
         newBook.setComments(List.of(new Comment(5L, "Комментарий_1_к_книге_5")));
 

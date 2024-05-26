@@ -2,4 +2,5 @@
 *.iml
 *.class
 *.mvn
+*.log
 target/

@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Comment;
+import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentsRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +17,9 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentsRepository commentsRepository;
 
+    private final BookRepository bookRepository;
+
     @Override
-    @Transactional(readOnly = true)
     public Optional<Comment> findById(long id) {
         return commentsRepository.findById(id);
     }
@@ -42,7 +45,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<Comment> findCommentsByBookId(long bookId) {
-        return commentsRepository.findCommentsByBookId(bookId);
+        List<Comment> comments = bookRepository.findById(bookId)
+                .map(book -> book.getComments()).orElse(Collections.emptyList());
+        return comments;
     }
 
     private Comment save(long id, String comment) {

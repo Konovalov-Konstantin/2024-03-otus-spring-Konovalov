@@ -15,8 +15,7 @@
             <column name="comment" type="varchar(255)"/>
 
             <column name="book_id" type="bigint">
-                <constraints nullable="false"
-                             foreignKeyName="fk_comment_book"
+                <constraints foreignKeyName="fk_comment_book"
                              references="books(id)"
                              deleteCascade="true"/>
             </column>
