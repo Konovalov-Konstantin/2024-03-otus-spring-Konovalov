@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb
+  liquibase:
+    enabled: true
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+  h2: # настройка для открытия консоли в веб-интерфейсе
+    console:
+      path: /h2-console   # URL консоли в веб-интерфейсе
+      settings:
+        web-allow-others: true
