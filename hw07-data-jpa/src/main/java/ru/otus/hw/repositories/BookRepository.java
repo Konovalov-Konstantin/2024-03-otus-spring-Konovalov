@@ -7,12 +7,12 @@ import ru.otus.hw.models.Book;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryCustom {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @EntityGraph(attributePaths = {"comments", "author","genre"})
+    @EntityGraph(attributePaths = {"author","genre"})
     Optional<Book> findById(Long id);
 
-    @EntityGraph(attributePaths = {"comments", "author","genre"})
+    @EntityGraph(attributePaths = {"genre", "author"})
     List<Book> findAll();
 
 }

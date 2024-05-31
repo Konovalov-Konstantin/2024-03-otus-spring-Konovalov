@@ -54,15 +54,6 @@ class BookRepositoryJPATest {
         );
     }
 
-    @DisplayName("выбрасывать исключение, если ни одной книги не обновлено")
-    @Test
-    void shouldThrowEntityNotFoundException() {
-        Author testAuthor = new Author(2L, "Test_Author_2");
-        Genre testGenre = new Genre(2L, "Test_Genre_2");
-        Book missingBook = new Book(10L, "Missing_Book", testAuthor, testGenre, Collections.emptyList());
-        assertThrows(EntityNotFoundException.class, () -> bookRepository.saveOrUpdate(missingBook));
-    }
-
     @DisplayName("удалять книгу из БД")
     @Test
     void shouldDeleteBook() {

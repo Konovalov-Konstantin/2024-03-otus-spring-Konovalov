@@ -8,13 +8,13 @@ import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> findAll() {
         return genreRepository.findAll();
     }

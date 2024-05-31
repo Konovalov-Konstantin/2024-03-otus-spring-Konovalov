@@ -35,7 +35,7 @@ class CommentServiceImplTest {
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(expectedBook));
 
-        List<Comment> commentsByBookId = commentService.findCommentsByBookId(1);
+        List<Comment> commentsByBookId = commentService.findCommentsByBookId(1L);
 
         assertIterableEquals(commentsByBookId, expectedBook.getComments());
 

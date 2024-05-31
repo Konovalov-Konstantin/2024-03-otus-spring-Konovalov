@@ -79,13 +79,14 @@ class BookServiceImplTest {
     void shouldUpdateBook() {
         Optional<Book> bookBeforeUpdate = bookService.findById(1L);
         assertEquals(2, bookBeforeUpdate.get().getComments().size());
+
         List<Comment> comments = List.of(new Comment(5L, "new Comment"));
-        bookService.update(1L, "UpdatedTitile", 3L, 2L, comments);
+        bookService.update(1L, "UpdatedTitle", 3L, 2L, comments);
 
         Optional<Book> bookAfterUpdate = bookService.findById(1L);
         assertAll(
-                () -> assertEquals(3, bookAfterUpdate.get().getComments().size()),
-                () -> assertEquals("UpdatedTitile", bookAfterUpdate.get().getTitle())
+                () -> assertEquals(1, bookAfterUpdate.get().getComments().size()),
+                () -> assertEquals("UpdatedTitle", bookAfterUpdate.get().getTitle())
         );
     }
 }
