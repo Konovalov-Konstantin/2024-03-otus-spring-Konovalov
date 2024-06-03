@@ -2,13 +2,13 @@ package ru.otus.hw.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.CommentsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +24,8 @@ class CommentServiceImplTest {
     CommentServiceImpl commentService;
     @MockBean
     BookRepository bookRepository;
+    @MockBean
+    CommentsRepository commentsRepository;
 
     @DisplayName("возвращать все комментарии книги по ID-книги")
     @Test

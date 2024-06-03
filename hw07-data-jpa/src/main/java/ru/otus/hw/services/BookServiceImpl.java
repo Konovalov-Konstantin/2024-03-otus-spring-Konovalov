@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BookServiceImpl implements BookService {
 
     private final AuthorRepository authorRepository;
@@ -27,6 +26,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Book> findById(long id) {
         Optional<Book> book = bookRepository.findById(id);
         List<Comment> comments = book.map(Book::getComments).orElse(Collections.emptyList());
@@ -35,6 +35,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findAll() {
         List<Book> books = bookRepository.findAll();
         Hibernate.initialize(books.get(0).getComments());
@@ -42,19 +43,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public Book insert(String title, long authorId, long genreId, List<Comment> comments) {
         return save(0, title, authorId, genreId, comments);
     }
 
     @Override
-    @Transactional
     public Book update(long id, String title, long authorId, long genreId, List<Comment> comments) {
         return save(id, title, authorId, genreId, comments);
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         bookRepository.deleteById(id);
     }
