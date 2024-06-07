@@ -43,11 +43,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public Book insert(String title, long authorId, long genreId, List<Comment> comments) {
         return save(0, title, authorId, genreId, comments);
     }
 
     @Override
+    @Transactional
     public Book update(long id, String title, long authorId, long genreId, List<Comment> comments) {
         return save(id, title, authorId, genreId, comments);
     }
