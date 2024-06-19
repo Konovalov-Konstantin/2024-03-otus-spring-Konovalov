@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+<h3>Book:</h3>
+
+<label>id: </label>
+<td th:text="${book.id}"> 1</td>
+<br><br>
+<label>title: </label>
+<td th:text="${book.title}"> title</td>
+<br><br>
+<label>author: </label>
+<td th:text="${book.author.fullName}"> fullName</td>
+<br><br>
+<label>genre: </label>
+<td th:text="${book.genre.name}"> name</td>
+<br><br>
+<label>comments: </label>
+<td>
+    <li th:each="comment : ${book.comments}" th:text="${comment.comment}"></li>
+</td>
+<br><br>
+<td>
+    <a th:href="@{/}">На главную</a>
+</td>
+</body>
+</html>
