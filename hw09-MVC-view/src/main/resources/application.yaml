@@ -3,10 +3,6 @@ spring:
     url: jdbc:h2:mem:maindb
   liquibase:
     enabled: true
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
   jpa:
     generate-ddl: false
     hibernate:

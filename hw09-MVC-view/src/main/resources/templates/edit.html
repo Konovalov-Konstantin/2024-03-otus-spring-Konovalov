@@ -2,32 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit book</title>
+    <title>Book info:</title>
 </head>
 <body>
 
-<form th:method="patch" th:action="@{/edit}" th:object="${book}">
+<form th:method="post" th:action="@{/books}" th:object="${book}">
     <h3>Book Info:</h3>
 
-    <label> id:</label>
-    <td th:text="${book.id}"> 1</td>
-    <br>
-    <br>
+    <input id="id" name="id" type="id" th:value="${book.id}" hidden/>
+
     <label for="title">title:</label>
     <input id="title" name="title" type="text" th:value="${book.title}"/>
     <br>
     <br>
     <label for="author">author:</label>
     <select name="author" id="author">
-        <option th:each="author : ${authors}" th:text="${author.fullName}" th:value="${author.id}"
-                th:selected="${author.id == book.getAuthor().id}"/>
+        <option th:each="author : ${authors}" th:text="${author.fullName}" th:value="${author.id}"/>
     </select>
     <br>
     <br>
     <label for="genre">genre:</label>
     <select name="genre" id="genre">
-        <option th:each="genge : ${genres}" th:text="${genge.name}" th:value="${genge.id}"
-                th:selected="${genge.id == book.getGenre().id}"/>
+        <option th:each="genge : ${genres}" th:text="${genge.name}" th:value="${genge.id}"/>
     </select>
     <br>
     <br>
@@ -41,7 +37,14 @@
         </td>
         <br>
     </tr>
+    <br>
+    <br>
     <button type="submit"> Save</button>
+    <br>
+    <br>
+    <a th:href="@{/}">
+        <button type="button">Cancel</button>
+    </a>
 </form>
 </body>
 </html>

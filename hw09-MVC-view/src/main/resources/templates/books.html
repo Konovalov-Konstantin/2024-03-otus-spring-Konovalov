@@ -39,10 +39,10 @@
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-        <td th:text="${book.id}"> 1 </td>
-        <td th:text="${book.title}"> title </td>
-        <td th:text="${book.author.fullName}"> fullName </td>
-        <td th:text="${book.genre.name}"> name </td>
+        <td th:text="${book.id}"> 1</td>
+        <td th:text="${book.title}"> title</td>
+        <td th:text="${book.author.fullName}"> fullName</td>
+        <td th:text="${book.genre.name}"> name</td>
         <td>
             <li th:each="comment : ${book.comments}" th:text="${comment.comment}"></li>
         </td>
@@ -50,11 +50,16 @@
             <a th:href="@{/edit(id=${(book.id)})}">Edit </a>
 
             <form th:method="delete" th:action="@{/{id}(id=${(book.id)})}">
-                <input type="submit" value="Delete" />
+                <input type="submit" value="Delete"/>
             </form>
         </td>
     </tr>
     </tbody>
+    <br>
+    <form th:method="get" th:action="@{/create}">
+        <input type="submit" value="Add new"/>
+    </form>
+
 </table>
 </body>
 </html>
