@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book info:</title>
+</head>
+<body>
+
+<form th:method="post" th:action="@{/books}" th:object="${book}">
+    <h3>Book Info:</h3>
+
+    <input id="id" name="id" type="id" th:value="${book.id}" hidden/>
+
+    <label for="title">title:</label>
+    <input id="title" name="title" type="text" th:value="${book.title}"/>
+    <br>
+    <br>
+    <label for="author">author:</label>
+    <select name="author" id="author">
+        <option th:each="author : ${authors}" th:text="${author.fullName}" th:value="${author.id}"/>
+    </select>
+    <br>
+    <br>
+    <label for="genre">genre:</label>
+    <select name="genre" id="genre">
+        <option th:each="genge : ${genres}" th:text="${genge.name}" th:value="${genge.id}"/>
+    </select>
+    <br>
+    <br>
+    <label>comments:</label>
+    <tr th:each="com, itemStat : *{comments}">
+        <td>
+            <li>
+                <input th:field="*{comments[__${itemStat.index}__].comment}"/>
+
+            </li>
+        </td>
+        <br>
+    </tr>
+    <br>
+    <br>
+    <button type="submit"> Save</button>
+    <br>
+    <br>
+    <a th:href="@{/main}">
+        <button type="button">Cancel</button>
+    </a>
+</form>
+</body>
+</html>
