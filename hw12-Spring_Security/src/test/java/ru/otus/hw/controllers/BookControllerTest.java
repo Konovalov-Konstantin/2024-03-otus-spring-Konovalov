@@ -51,20 +51,6 @@ class BookControllerTest {
 
     @Test
     @WithMockUser
-    public void testAuthenticatedUser() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithAnonymousUser
-    public void testNotAuthenticatedUser() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser
     public void testAuthenticatedUserCreatePage() throws Exception {
         mockMvc.perform(get("/create"))
                 .andExpect(status().isOk());

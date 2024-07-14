@@ -25,8 +25,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment insert(long id, String comment) {
-        return save(id, comment);
+    public Comment insert(String comment) {
+        return save(0, comment);
     }
 
     @Override

@@ -24,4 +24,5 @@ public class BookDTO {
 
     private List<Comment> comments;
 
+    private String newComment;
 }

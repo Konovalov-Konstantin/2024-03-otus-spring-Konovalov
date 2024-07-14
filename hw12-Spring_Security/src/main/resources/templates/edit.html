@@ -32,11 +32,13 @@
         <td>
             <li>
                 <input th:field="*{comments[__${itemStat.index}__].comment}"/>
-
             </li>
         </td>
         <br>
     </tr>
+    <br>
+    <label>New comment:</label>
+    <input name="newComment" type="text"/>
     <br>
     <br>
     <button type="submit"> Save</button>

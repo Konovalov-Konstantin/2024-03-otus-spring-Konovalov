@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +20,7 @@ import ru.otus.hw.services.GenreService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class BookController {
 
     @GetMapping("/")
     public String indexPage() {
-        return "index";
+        return "redirect:/main";
     }
 
     @GetMapping("/main")
@@ -74,6 +74,14 @@ public class BookController {
         long authorId = book.getAuthor().getId();
         long genreId = book.getGenre().getId();
         List<Comment> comments = book.getComments();
+        String newComment = book.getNewComment();
+        if (!newComment.isBlank()) {
+            Comment insertedComment = commentService.insert(newComment);
+            if (Objects.isNull(comments)) {
+                comments = new ArrayList<>();
+            }
+            comments.add(insertedComment);
+        }
         if (bookId == 0L) {
             bookService.insert(title, authorId, genreId, comments);
         } else {
@@ -95,7 +103,7 @@ public class BookController {
         return "edit";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String deleteBook(@PathVariable("id") long id) {
         bookService.deleteById(id);
         return "redirect:/main";
